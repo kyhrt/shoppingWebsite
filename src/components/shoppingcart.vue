@@ -1,6 +1,6 @@
 <!-- 组件最后一行要空一行；对象最后一个不能加逗号； -->
 <template>
-	<div class="shoppingcart">
+	<div class="shoppingcart" id="shoppingcart" name='shoppingcart'>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-5">
@@ -88,18 +88,12 @@
     		commodity: [
     		{
     			title: 'taozi',
-    			img: '../static/1.png',
+    			img: '',
     			price: '15',
     			number: '1',
     			allpay: '15'
-    		},
-    		{
-    			title: 'taoni',
-    			img: '../static/1.png',
-    			price: '16',
-    			number: '1',
-    			allpay: '16'
-    		}],
+    		}
+    		],
     		key: ''
     	}
     },

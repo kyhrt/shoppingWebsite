@@ -1,31 +1,43 @@
 <template>
 	<div class="details">
-		<p v-for='item in details'>{{item}}</p>
-		<img src="" alt="">
+		
+		<img :src="imageURL" alt="">
 	</div>
 </template>
 
 <script>
 	export default {
 		name: 'details',
-		data() {
+		data: function() {
 			return {
-				details: []
+				details: [],
+				imageURL: ''
 			}
-		}
+		},
+		created: function() {
+	      var that = this;
+	      var id = that.$route.params.id;
+	      // console.log(id)
+	      axios.get('/api/commodity/product',{
+	          params: {
+	            ID: id
+	          }
+	        }).then(function (response) {
+	          
+	              // console.log(response.data)
+	              // nth-child()是从1开始的
+	              var data = response.data;
+	              that.imageURL = data[0]['宝贝详情']
+	              // console.log(that.imageURL)
+	        });
+    	}
 	}
 </script>
 
 <style lang='scss'>
 	.details {
-		display: flex;
-		flex-wrap: wrap;
-		width: 930px;
-		& p {
-			width: 250px;
-			margin-top: 10px;
-			margin-left: 30px;
-			text-align: left;
-		}
+		
+		text-align: center;
+		
 	}
 </style>

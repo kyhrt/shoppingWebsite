@@ -23,6 +23,7 @@
 	.footer {
 		position: fixed;
 		bottom: 0;
+		/* margin-bottom: 0px; */
 		& ul {
 			display: flex;
 			height: 90px;

@@ -2,7 +2,7 @@
 <div class="home">
 	<navs></navs>
 	<banner></banner>
-	<spshow></spshow>
+	<spshow :title='title'></spshow>
 </div>
 </template>
 
@@ -14,6 +14,11 @@ import spshow from '@/components/spshow'
 import navs from '@/components/nav'
   export default {
     name: 'home',
+    data: function () {
+        return {
+            title: '商品'
+        }
+    },
     components: {
     	
     	banner,

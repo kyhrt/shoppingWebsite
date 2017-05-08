@@ -4,12 +4,13 @@
 	<div class="media">
 		<div class="media-left">
 			<a href="">
-				<img src="" alt="" width='480px' height="480px" class="media-object">
+				<img :src="imageURL" alt="" width='400px' height="400px" class="media-object">
 			</a>
-			<p><span class="glyphicon glyphicon-star"></span>收藏宝贝&nbsp|&nbsp <span class="glyphicon glyphicon-share"></span></p>
+			<p><span class="glyphicon glyphicon-star"></span>收藏宝贝&nbsp;|&nbsp; <span class="glyphicon glyphicon-share"></span></p>
 		</div>
 		<div class="media-body">
 			<h1 class="media-heading">{{title}}</h1>
+      <small>{{infor}}</small>
 			<p><span>价格</span><span>￥{{price}}</span></p>
 			
 			<form action="" class="form-inline">
@@ -20,6 +21,7 @@
 			      <a @click='plus' role='button' class="input-group-addon btn">+</a>
 			    </div>
 			</form>
+      <small>库存{{stock}}</small>
 
 			<div>
 				<button class="btn">立即购买</button>
@@ -50,7 +52,9 @@
   			title: 'mini',
   			price: '1000',
   			number: '1',
-  			stock: '1'
+  			stock: '1',
+        infor: '',
+        imageURL: ''
   		}
   	},
     name: 'commodity',
@@ -63,6 +67,26 @@
     	}
     },
 
+    // 总结：主要出错在$route没加this，所以识别不出，出现undefined的情况，也导致了created出错
+    created: function() {
+      var that = this;
+      var id = that.$route.params.id;
+      axios.get('/api/commodity/product',{
+          params: {
+            ID: id
+          }
+        }).then(function (response) {
+          
+              // console.log(response.data)
+              // nth-child()是从1开始的
+              var data = response.data;
+              that.title = data[0]['name'];
+              that.price = data[0]['price'];
+              that.stock = data[0]['stock'];
+              that.infor = data[0]['infor'];
+              that.imageURL = data[0]['imageURL'];
+        });
+    }
 // 还没实现的功能：number=<1时不能点击-按钮
 
     // watch: {
@@ -95,6 +119,7 @@
       margin-bottom: 50px;
     }
     & .media-body {
+      margin-left: 40px;
       & p {
         font-weight: bold;
         font-size: 16px;

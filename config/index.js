@@ -27,7 +27,17 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/api': {
+            target: 'http://localhost:3000/api/',
+            changeOrigin: true,
+            pathRewrite: {                
+                '^/api': ''
+            }
+        }
+    },
+    // changeOrigin参数接收一个布尔值，如果为true，这样就不会有跨域问题了。
+    
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)

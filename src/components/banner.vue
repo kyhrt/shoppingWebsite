@@ -9,16 +9,16 @@
 		<!-- 内容 -->
 		<div class="carousel-inner" role="listbox">
 			<div class="item active">
-				<img src="" alt="">
-				<div class="carousel-caption">nihao</div>
+				<img :src="bannerURL['first']" alt="">
+				<div class="carousel-caption"></div>
 			</div>
 			<div class="item">
-				<img src="" alt="">
-				<div class="carousel-caption">hai</div>
+				<img :src="bannerURL['second']" alt="">
+				<div class="carousel-caption"></div>
 			</div>
 			<div class="item">
-				<img src="" alt="">
-				<div class="carousel-caption">meida</div>
+				<img :src="bannerURL['third']" alt="">
+				<div class="carousel-caption"></div>
 			</div>
 		</div>
 
@@ -30,12 +30,48 @@
 
 <script>
   export default {
-    name: 'banner'
+    name: 'banner',
+    data: function () {
+    	return {
+    		bannerURL: {
+    			first: '',
+    			second: '',
+    			third: ''
+    		}
+    	}
+    },
+    created: function() {
+    	var that = this;
+    	
+        axios.get('/api/home/banner',{
+          
+        }).then(function (response) {
+          
+              // console.log(response.data)
+              // nth-child()是从1开始的
+              var data = response.data;
+              // console.log(data)
+              
+                that.bannerURL['first'] = data[0]['imageURL'];
+                that.bannerURL['second'] = data[1]['imageURL'];
+                that.bannerURL['third'] = data[2]['imageURL'];
+              
+            });
+      
+    }
   }
 </script>
 
-<style>
+<style lang='scss'>
   #carousel {
-  	margin: 100px 200px;
+  	margin-left: 50px;
+  	margin-right: 50px;
+  	& div.carousel-inner {
+  		/* 通过添加100%使图片自动填充 */
+		& img {
+			width: 100%;
+		}
+  	}
   }
+
 </style>
