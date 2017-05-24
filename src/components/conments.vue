@@ -30,10 +30,10 @@
     data() {
     	return {
     		comment: [{
-    			imageURL: 'static/image/spshow1/1.jpg',
-    			userName: 'kyhrt',
-    			comments: 'henhao',
-    			date: '2017.1'
+    			imageURL: '',
+    			userName: '',
+    			comments: '',
+    			date: ''
     		}
     		]
     	}
@@ -48,7 +48,7 @@
 	          }
 	        }).then(function (response) {
 	          
-	              // console.log(response.data)
+	              console.log(response.data)
 	              // nth-child()是从1开始的
 	              
 	              var data = response.data;

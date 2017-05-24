@@ -25,7 +25,7 @@
 
 			<div>
 				<button class="btn">立即购买</button>
-				<button class="btn"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
+				<button class="btn" @click='add' id="shoppingcart"><span class="glyphicon glyphicon-shopping-cart"></span>加入购物车</button>
 			</div>
 		</div>
 	</div>
@@ -42,11 +42,6 @@
 
 // 使用data里面的变量时别忘了this
   export default {
-    props: {
-      id: {
-        type: String
-      }
-    },
   	data() {
   		return {
   			title: 'mini',
@@ -54,7 +49,8 @@
   			number: '1',
   			stock: '1',
         infor: '',
-        imageURL: ''
+        imageURL: '',
+        id: ''
   		}
   	},
     name: 'commodity',
@@ -64,13 +60,40 @@
     	},
     	minus: function(event){
     		this.number--;
-    	}
+    	},
+      //添加进购物车
+      add: function () {
+        var c = $('#shoppingcart').attr('class')
+        c = c.split(' ');
+        c = c.filter(function (value) {
+            return value == 'disabled';
+        });
+
+        if(c.length > 0) {}
+        else {
+          $('#shoppingcart').attr('class','disabled btn');
+        
+          alert('已加入购物车')
+          var that = this;
+          var account = $('nav>div.container ul.nav>li:nth-child(5)>a').attr('title');
+          axios.post('/api/user/shoppingcart',{
+              ID: that.id,
+              user: account,
+              name: that.title
+          }).then(function (response) {
+            
+                
+          });
+        }
+        
+      }
     },
 
     // 总结：主要出错在$route没加this，所以识别不出，出现undefined的情况，也导致了created出错
     created: function() {
       var that = this;
       var id = that.$route.params.id;
+      var account = $('nav>div.container ul.nav>li:nth-child(5)>a').attr('title');
       axios.get('/api/commodity/product',{
           params: {
             ID: id
@@ -85,8 +108,39 @@
               that.stock = data[0]['stock'];
               that.infor = data[0]['infor'];
               that.imageURL = data[0]['imageURL'];
-        });
-    }
+              that.id = data[0]['id'];
+              if(account != '账户') {
+                axios.post('/api/user/shoppingcartGet',{
+          
+                    name: account
+                    
+                  
+                }).then(function (response) {
+                      // console.log(response)
+                      var data = response.data;
+                      var b = '0';
+                      // console.log(data);
+                      data.forEach( function(element, index) {
+                        // console.log(element.id)
+                        // console.log(element.id == params.id)
+                        // console.log(element.id+":"+that.id)
+                        // console.log(element.id == that.id)
+                        if (element.id == that.id) {
+                            b = '1';
+                        }
+                        });
+                      if(b == '1') {
+                        $('#shoppingcart').attr('class','disabled btn');
+                        
+                      }
+                }
+                );
+      // console.log(that.id)
+      
+              }
+            });
+  }
+
 // 还没实现的功能：number=<1时不能点击-按钮
 
     // watch: {

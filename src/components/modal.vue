@@ -123,6 +123,7 @@
     		var $a = $('.modal form>a');
     		$a.html('注册');
     		$('.modal form>p').remove();
+            $('.modal h4').html('账户注册');
     	}
     },
 

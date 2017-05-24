@@ -7,8 +7,8 @@
       
       <form action="" class="navbar-form navbar-right">
         <div class="form-group">
-        <input type="text" class="form-control" placeholder="search">
-        <a role='button'><span class="glyphicon glyphicon-search"></span></a>
+        <input type="text" class="form-control" placeholder="search" v-model='search'>
+        <a role='button' :href='"/#/search/" + search'><span class="glyphicon glyphicon-search"></span></a>
         </div>
       </form>
 
@@ -29,15 +29,29 @@
 <script>
   export default {
     name: 'navbar',
+    data: function () {
+      return {
+        search: ''
+      }
+    },
     methods: {
       alert: function () {
         alert('QQ:****')
       }
+      
     }
   }
 </script>
 
 <style lang='scss'>
+  .css3 {
+    &:hover {
+      box-shadow: 5px 5px 5px #888;
+      transition: all .2s linear;
+    }
+  }
+
+
   body {
     padding-top: 70px;
   }

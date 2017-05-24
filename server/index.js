@@ -14,14 +14,10 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-
 // 后端api路由
 app.use('/api/user', userApi);
-
 app.use('/api/home', homeApi);
-
 app.use('/api/commodity', commodityApi);
-
 app.use('/api/search', searchApi);
 // 监听端口
 app.listen(3000);

@@ -25,6 +25,7 @@ router.post('/addUser', (req, res) => {
     var use = $sql.db.into;
     var sql = $sql.addUser.add1;  
     var get = $sql.getUser.get;
+    var spadd = $sql.shoppingcart.crt;
     var a = 1;
     var params = req.body;    
     
@@ -34,8 +35,6 @@ router.post('/addUser', (req, res) => {
             a = 0;
         }        
         if (result) {
-            
-            // res.send(result[0]['name'] == params.name)
             var r = JSON.stringify(result);
             if(r[0]['name'] == params.name){
                 a = 0;
@@ -43,15 +42,20 @@ router.post('/addUser', (req, res) => {
             }
         }
     });
-
     if (a == 1) {
         conn.query(use);
+        
         conn.query(sql, [params.name, params.password], function(err, result) {    
             if (err) {       
                 console.log(err);
             }        
             res.send('1');
-        })
+        });
+        conn.query(spadd, params.name, function(err, result) {    
+            if (err) {       
+                console.log(err);
+            }
+        });
     }
     
 });
@@ -96,13 +100,14 @@ router.post('/getUser', (req, res, next) => {
     var use = $sql.db.into;
     var sql = $sql.getUser.login;    
     var params = req.body;
-    
+    // console.log(params.name)
     conn.query(use);
     conn.query(sql, params.name, function(err, result) {    
         if (err) {       
             console.log(err);
         }        
         if (result) {
+            // console.log(result)
             if(result[0]['password'] == params.password){
                 res.send('1')
             }
@@ -114,4 +119,45 @@ router.post('/getUser', (req, res, next) => {
     })
     // next();
 });
+
+// 加入购物车
+router.post('/shoppingcart', (req, res, next) => {
+    var use = $sql.db.into;
+    var sql = $sql.shoppingcart.add;    
+    var params = req.body;
+
+    // console.log(params.name)
+    conn.query(use);
+    conn.query(sql, [params.user, params.ID, params.name], function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }        
+        
+    })
+    // next();
+});
+//检查商品是否被添加到表中
+router.post('/shoppingcartGet', (req, res, next) => {
+    var use = $sql.db.into;
+    var sql = $sql.shoppingcart.get;    
+    var params = req.body;
+    // console.log(params)
+    // var b = '0';
+    // console.log("2:"+params.name)
+    // console.log("3:"+params.id)
+    conn.query(use);
+    conn.query(sql, params.name, function(err, result) {    
+        if (err) {       
+            console.log(err);
+        }
+        if(result) {
+                // console.log(result)
+                res.send(result);
+            }
+        }        
+        
+    )
+    // next();
+});
+
 module.exports = router;

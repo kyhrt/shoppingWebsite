@@ -8,7 +8,7 @@
 	  	<li class="nav-item"><a href="/#/search" class="nav-link">背壳/保护套</a></li> -->
 	  	<li class="nav-item"><a href="/#/search" class="nav-link">周边</a></li>
 	  	<!-- <li class="nav-item"><a href="" class="nav-link">保修服务</a></li> -->
-	  	<li class="nav-item"><a href="/#/search" class="nav-link">全部商品</a></li>
+	  	<li class="nav-item"><a href="/#/search/all" class="nav-link">全部商品</a></li>
 	  </ul>
 	</div>
 </template>

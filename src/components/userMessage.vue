@@ -50,10 +50,12 @@
     			bankcart: '',
     			area: ''
     		}
+            
     	}
     },
     methods: {
     	edit: function () {
+            var arr = ['name','password','birth','sex','bankcart','area'];
     		var that = this;
     		// console.log(that.message.birth);
     		var body = $('.userMessage .media-body');
@@ -71,11 +73,19 @@
     			);
     			// console.log(value);
     		}
+            // console.log(this.message['birth'])
     		if (this.status == '1') {
     			body.find('button').html('编辑');
     			body.find('span').each(function () {
     				var value = $(this).children('input').val();
     				$(this).html(value);
+                    // console.log(value)
+                    // console.log(arr)
+                    
+                    //解决变成input时数据没有响应了 
+                    var k = arr.splice(0,1);
+                    that.message[k] = value;
+                    // console.log(k)
     			})
     			// console.log(that.message.name);
     			axios.post('/api/user/edituser',{
@@ -92,8 +102,10 @@
           
 	              // console.log(response.data)
 	              // nth-child()是从1开始的
-	              var data = response.data;
-	              that.message = data[0];
+	              // var data = response.data;
+                  
+                  // 粗心大意导致的错误，后台返回的事字符串，不是result，不能赋值给message
+	              // that.message = data[0];
 	              
 	            });
     		}

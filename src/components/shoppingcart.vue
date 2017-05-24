@@ -3,7 +3,7 @@
 	<div class="shoppingcart" id="shoppingcart" name='shoppingcart'>
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-5">
+				<div class="col-sm-4">
 					商品信息
 				</div>
 				<div class="col-sm-2">
@@ -12,19 +12,19 @@
 				<div class="col-sm-2">
 					数量
 				</div>
-				<div class="col-sm-2">
+				<!-- <div class="col-sm-2">
 					金额
-				</div>
+				</div> -->
 				<div class="col-sm-1">
 					操作
 				</div>
 			</div>
 			<div class="row" v-for='(item, index) in commodity'>
-				<div class="col-sm-5">
+				<div class="col-sm-4">
 					<div class="media">
-						<div class="media-left"><a href=""><img :src=item.img alt="" class="media-object"></a></div>
+						<div class="media-left"><a :href=' "/#/commodity/" + item["name"] '><img :src=item.imageURL alt="" class="media-object"></a></div>
 						<div class="media-body">
-							{{item.title}}
+							{{item.name}}
 						</div>
 					</div>
 				</div>
@@ -41,9 +41,9 @@
 					    </div>
 					</form>
 				</div>
-				<div class="col-sm-2">
-					<span class="red">￥{{item.allpay}}</span>
-				</div>
+				<!-- <div class="col-sm-2">
+					<span class="red">￥{{allpay}}</span>
+				</div> -->
 				<div class="col-sm-1">
 					<a role='button' data-toggle='modal' data-target='#delete'>删除</a>
 					<div class="modal fade" id="delete" tabindex="-1">
@@ -85,13 +85,13 @@
     name: 'shoppingcart',
     data() {
     	return {
+
     		commodity: [
     		{
-    			title: 'taozi',
-    			img: '',
+    			name: '',
+    			imageURL: '',
     			price: '15',
-    			number: '1',
-    			allpay: '15'
+    			
     		}
     		],
     		key: ''
@@ -119,14 +119,61 @@
     		shop.number--;
     		shop.allpay = shop.number*shop.price;
     	}
+    	
+    },
+    created: function () {
+    	var that = this;
+    	var account = $('nav>div.container ul.nav>li:nth-child(5)>a').attr('title');
+    	// console.log(account)
+    	axios.post('/api/user/shoppingcartGet',{
+            name: account
+        }).then(function (response) {
+              // console.log(response)
+              var data = response.data;
+              console.log(data)
+              var arr = [];
+              for(let i of data) {
+              	arr.push(i.name);
+              }
+              console.log(arr)
+              axios.get('/api/commodity/product',{
+		            params: {
+		            	ID: arr
+		            }
+		        }).then(function (response) {
+		              // console.log(response)
+		              
+		              var data = response.data;
+		              console.log(data)
+              		  that.commodity = data;
+              
+        }
+        );
+              
+        }
+        );
     }
   }
 </script>
 
 <style lang='scss'>
 	.shoppingcart {
-		.red {
+		& .red {
 			color: red;
+		}
+		& .row {
+			& .col-sm-2 {
+				height: 100%;
+				vertical-align: middle;
+		}
+			}
+			
+		& .media {
+			& .media-left {
+				width: 100px;
+				height: 100px;
+			}
+			
 		}
 	}
 </style>

@@ -26,13 +26,14 @@ var jsonWrite = function(res, ret) {
     }
 };
 
-var re = null;
+// var re = null;
 router.get('/product', (req, res, next) => {
     var use = $sql.db.into;
     var sql = $sql.product.get;    
     // var params = req.body;
     var params = req.query.ID;
-
+    // console.log(params)
+    
     conn.query(use);
     conn.query(sql, [params], function(err, result) {    
         if (err) {       
@@ -67,30 +68,30 @@ router.get('/comments', (req, res, next) => {
     // var params = re[0]['id'];
     var params = req.query.ID;
     conn.query(use);
-    var re = null;
+    
     // console.log(params)
     conn.query(sql2, [params], function(err, result) {    
         if (err) {       
             console.log(err);
         }        
         if (result) {
-            // console.log("1:"+re);
-            // re = result;
-            re = result;
+            
+            var p;
+            p = result[0]['id'];
+            console.log('1:'+p);
+            conn.query(sql1, [p], function(err, result) {    
+            if (err) {       
+                console.log(err);
+            }        
+            if (result) {
+                res.send(result);
+            }
+        })
+            
         }
     })
-    if(re) {
-        params = re[0]['id'];
 
-        conn.query(sql1, [params], function(err, result) {    
-        if (err) {       
-            console.log(err);
-        }        
-        if (result) {
-            res.send(result);
-        }
-    })
-    }
+    
     
     
     // next();
