@@ -27,10 +27,10 @@ npm run e2e
 npm test
 ```
 
-##打开后台服务器
+## 打开后台服务器
 打开 `server`文件夹，在文件夹中右键打开命令行窗口，运行`node index`
 
-##打开vue-cli的自带服务器
+## 打开vue-cli的自带服务器
 在根目录右键打开命令行窗口，运行`npm run dev`
 
 ok
